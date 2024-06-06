@@ -1,0 +1,2 @@
+﻿scopeName,subnetMask,startRange,endRange,defaultGateway,scopeID
+Test Scope,255.255.255.0,172.16.0.10,172.16.250,172.16.0.1,172.16.0.0
