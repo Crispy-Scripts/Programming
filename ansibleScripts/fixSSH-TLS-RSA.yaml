@@ -1,0 +1,39 @@
+---
+  - name: Update SSH, TLS version to 1.2 and generate new RSA Key-pair
+    hosts: Test
+    gather_facts: no
+    connection: network_cli
+
+    tasks:
+      - name: Update SSH server algorithms 
+        ios_config:
+          lines:
+            - ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+            - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
+
+      - name: Generate new 4096bit RSA token and label as SSHKeys
+        ios_config:
+          lines:
+            - crypto key generate rsa modulus 4096 label SSHKeys
+
+      - name: Update SSH to use new Key-pair
+        ios_config:
+          lines:
+            - ip ssh rsa keypair-name SSHKeys
+
+      - name: Update TLS v1.2
+        ios_config:
+          lines:
+            - ip http tls-version TLSv1.2
+
+      - name: Update min DH size to 4096
+        ios_config:
+          lines:
+            - ip ssh dh min size 4096
+
+      #- name: save config
+        #ios_config:
+          #lines:
+            #- exit
+            #- write mem
+...

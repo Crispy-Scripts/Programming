@@ -1,0 +1,19 @@
+---
+  - name: Disable Telnet
+    hosts: Test
+    gather_facts: no
+    connection: network_cli
+
+    tasks:
+      - name: Disable Telnet
+        ios_config:
+          lines:
+            - line vty 0 15
+            - transport input ssh
+      
+      - name: save config
+        ios_config:
+          lines:
+            - exit
+            - write mem
+...

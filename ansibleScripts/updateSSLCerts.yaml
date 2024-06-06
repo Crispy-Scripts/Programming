@@ -1,0 +1,29 @@
+---
+  - name: Update SSL Certs
+    hosts: Test
+    gather_facts: no
+    connection: network_cli
+
+    tasks:
+      - name: Import SSL Cert
+        ios_config:
+          lines:
+            #Give the Trustpoint a name and enter the Password of the .pfx you created using openSSL
+            - crypto pki import <TP_NAME> pkcs12 tftp: password <Password>
+            - <TFTP_Server_IP>
+            - { inventory_hostname }-allcerts.pfx
+
+      - name: Apply new cert to trustpoint
+	      ios_config:
+          lines:
+            - ip http secure-server
+            #Applie the uploaded trustpoint to the HTTPS protocol
+            - ip http secure-trustpoint <TP_NAME>
+      
+      - name: save config
+        ios_config:
+          lines:
+            - exit
+            - write mem
+...
+

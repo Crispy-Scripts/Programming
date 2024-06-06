@@ -1,0 +1,18 @@
+---
+  - name: Update the archive path and save config
+    hosts: Test
+    gather_facts: no
+    connection: network_cli
+
+    tasks:
+      - name: Update Archive
+        ios_config:
+          parents: "archive"
+          lines:
+            - path tftp://<Archive_Server_IP>/Cisco_Routers/$h/Backup_
+
+      - name: save config
+        ios_config:
+          lines:
+            - do write mem
+...

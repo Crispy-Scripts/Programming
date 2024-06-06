@@ -1,0 +1,55 @@
+---
+- name: Cisco ios devices
+  hosts: Test
+  gather_facts: no
+
+  tasks:
+    - name: Create Directory for each switch
+      file:
+        path: /home/netAdmin/output/{{ inventory_hostname }}
+        state: directory
+        mode: '0777'
+
+    - name: Show commands
+      #ignore_errors: yes
+      ios_command:
+        commands:
+          - show running-config | inc ntp
+          - show running-config | inc 1300
+          - show running-config | inc tls
+          - show running-config | begin vty
+          - show ip ssh
+          - show access-list 1300
+
+      register: cisco_config
+
+    - name: Show ntp ACL
+      copy:
+        content: "{{ cisco_config.stdout[0] }}"
+        dest: "/home/netAdmin/output/{{ inventory_hostname }}/show_ntp-ACL-config.txt"
+
+    - name: Show ACL 1300
+      copy:
+        content: "{{ cisco_config.stdout[1] }}"
+        dest: "/home/netAdmin/output/{{ inventory_hostname }}/show_ACL-1300.txt"
+
+    - name: Show http tls config
+      copy:
+        content: "{{ cisco_config.stdout[2] }}"
+        dest: "/home/netAdmin/output/{{ inventory_hostname }}/show_http-tls-config.txt"
+
+    - name: Show vty lines
+      copy:
+        content: "{{ cisco_config.stdout[3] }}"
+        dest: "/home/netAdmin/output/{{ inventory_hostname }}/show_vty-lines.txt"
+
+    - name: Show ip ssh
+      copy:
+        content: "{{ cisco_config.stdout[4] }}"
+        dest: "/home/netAdmin/output/{{ inventory_hostname }}/show_ip-shh.txt"
+
+    - name: Show access-list 1300
+      copy:
+        content: "{{ cisco_config.stdout[5] }}"
+        dest: "/home/netAdmin/output/{{ inventory_hostname }}/show_access-list-1300.txt"
+...
