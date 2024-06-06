@@ -6,7 +6,7 @@ Date: 23/06/2022
 
 Description: 
 
-# TODO: Create new folders in the Archive server for each network device listed in the .csv file
+# TODO: Create new DHCP scopes with information listed in the .csv file
 
 #>
 

@@ -6,7 +6,7 @@ Date: 25/01/2022
 
 Description: 
 
-# TODO: Deactive DHCP Scopes found to be no longer active on the DHCP Server
+# TODO: Deactive DHCP Scopes found to be no longer active on the DHCP Server and set them to inactive state before deleteing them.
 
 #>
 
