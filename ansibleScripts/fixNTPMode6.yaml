@@ -1,0 +1,29 @@
+---
+  - name: Update SSH, TLS version to 1.2 and generate new RSA Key-pair
+    hosts: Test
+    gather_facts: no
+    connection: network_cli
+
+    tasks:
+      - name: NTP Mode 6 ACL
+        ios_config:
+          lines:
+            - access-list 1300 remark * PERMIT ALLOWED NTP SERVERS BELOW *
+            - access-list 1300 permit <NTP_SERVER>
+            - access-list 1300 permit <NTP_SERVER>
+            - access-list 1300 deny any
+            - ntp access-group serve-only 1300
+        #register: SEQOUT
+
+      - name: Update NTP Servers
+        ios_config:
+          lines:
+            - ntp server <NTP_SERVER> key 1
+            - no ntp server <NTP_SERVER_TO_REMOVE> key 1
+      
+      - name: save config
+        ios_config:
+          lines:
+            - exit
+            - write mem
+...

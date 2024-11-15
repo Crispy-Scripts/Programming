@@ -5,6 +5,11 @@
     connection: network_cli
 
     tasks:
+      - name: enable ssh version 2
+        ios_config:
+          lines:
+            - ip ssh version 2
+
       - name: Update SSH server algorithms 
         ios_config:
           lines:
@@ -31,9 +36,9 @@
           lines:
             - ip ssh dh min size 4096
 
-      #- name: save config
-        #ios_config:
-          #lines:
-            #- exit
-            #- write mem
+      - name: save config
+        ios_config:
+          lines:
+            - exit
+            - write mem
 ...
