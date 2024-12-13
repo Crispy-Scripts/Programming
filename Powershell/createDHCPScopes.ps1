@@ -11,6 +11,7 @@ Description:
 #>
 
 #--------[Params]---------------
+
 Import-Module DhcpServer
 
 $CSV = Import-Csv "C:\Programming\powershell\csv\createDhcpScopes.csv"
