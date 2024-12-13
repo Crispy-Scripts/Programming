@@ -1,0 +1,75 @@
+---
+- name: Cisco ios devices
+  hosts: Test
+  gather_facts: no
+  connection: network_cli
+ 
+  tasks:
+    - name: Create Directory for each switch
+      file:
+        path: /home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}
+        state: directory
+        mode: '0777'
+        
+    - name: show version for cisco routers
+      ios_command:
+        commands:
+          - show running-config
+          - show version
+          - sh cdp neighbors
+		      - sh etherchannel summary
+		      - sh mac address-table
+		      - sh lic summary
+		      - sh switch
+		      - sh spanning-tree bridge
+		      - sh spanning-tree root
+ 
+      register: cisco_config
+ 
+ 
+    - name: Save the running config
+      copy:
+        content: "{{ cisco_config.stdout[0] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/running-config_backup.txt"
+ 
+    - name: Get show version
+      copy:
+        content: "{{ cisco_config.stdout[1] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_versions.txt"
+
+    - name: Get CDP neighbours
+      copy:
+        content: "{{ cisco_config.stdout[2] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_cdp_neighbors.txt"
+
+    - name: Get etherchannel summary
+      copy:
+        content: "{{ cisco_config.stdout[3] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_etherchannel_summary.txt"
+
+    - name: Get mac address-table
+      copy:
+        content: "{{ cisco_config.stdout[4] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_Mac_Address_Table.txt"
+
+    - name: Get lic summary
+      copy:
+        content: "{{ cisco_config.stdout[5] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_lic_summary.txt"
+
+    - name: Get switch
+      copy:
+        content: "{{ cisco_config.stdout[6] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_switch.txt"
+
+    - name: Get spanning-tree bridge
+      copy:
+        content: "{{ cisco_config.stdout[7] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_spanning_tree_bridge.txt"
+
+    - name: Get sh spanning-tree root
+      copy:
+        content: "{{ cisco_config.stdout[8] }}"
+        dest: "/home/netAdmin/switch_config/{{ inventory_hostname }}/show_spanning_tree_root.txt"
+
+...
