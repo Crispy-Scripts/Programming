@@ -6,7 +6,7 @@
   tasks:
     - name: Create Directory for each switch
       file:
-        path: /home/k103527/cdp_ssh_output/{{ inventory_hostname }}
+        path: /home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}
         state: directory
         mode: '0777'
 
@@ -26,30 +26,30 @@
     - name: Show cdp neighbors
       copy:
         content: "{{ cisco_config.stdout[0] }}"
-        dest: "/home/k103527/cdp_ssh_output/{{ inventory_hostname }}/show_cdp_neighbors.txt"
+        dest: "/home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}/show_cdp_neighbors.txt"
 
     - name: show int description
       copy:
         content: "{{ cisco_config.stdout[1] }}"
-        dest: "/home/k103527/cdp_ssh_output/{{ inventory_hostname }}/show_int description.txt"
+        dest: "/home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}/show_int description.txt"
 
     - name: Show ip ssh
       copy:
         content: "{{ cisco_config.stdout[2] }}"
-        dest: "/home/k103527/cdp_ssh_output/{{ inventory_hostname }}/show_ip-ssh.txt"
+        dest: "/home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}/show_ip-ssh.txt"
         
     - name: Show hostname
       copy:
         content: "{{ cisco_config.stdout[3] }}"
-        dest: "/home/k103527/cdp_ssh_output/{{ inventory_hostname }}/show_hostname.txt"
+        dest: "/home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}/show_hostname.txt"
         
     - name: show ip domain-name
       copy:
         content: "{{ cisco_config.stdout[4] }}"
-        dest: "/home/k103527/cdp_ssh_output/{{ inventory_hostname }}/show_domain-name.txt"
+        dest: "/home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}/show_domain-name.txt"
         
     - name: Show name-server
       copy:
         content: "{{ cisco_config.stdout[5] }}"
-        dest: "/home/k103527/cdp_ssh_output/{{ inventory_hostname }}/show_name-server.txt"
+        dest: "/home/netAdmin/cdp_ssh_output/{{ inventory_hostname }}/show_name-server.txt"
 ...
